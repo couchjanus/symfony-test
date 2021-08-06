@@ -1,0 +1,12 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+# DevController
+
+index:
+    path: /
+    controller: App\Controller\DevController
+
+dev:
+    path: /dev
+    controller: App\Controller\DevsController::index

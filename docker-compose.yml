@@ -1,0 +1,39 @@
+version: '3.9'
+
+services:
+
+  sphp:
+    container_name: sphp
+    build:
+      context: ./docker/dev/php-fpm
+#    extra_hosts:
+#      host.docker.internal: host-gateway
+    volumes:
+      - ./:/var/www
+      - ./docker/dev/php-fpm/php.ini:/usr/local/etc/php/php.ini
+
+  snginx:
+    container_name: snginx
+    build:
+      context: ./docker/dev/nginx
+    volumes:
+      - ./:/var/www
+      - ./docker/dev/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./docker/dev/nginx/sites/:/etc/nginx/sites-available
+      - ./docker/dev/nginx/conf.d/:/etc/nginx/conf.d
+      - ./docker/logs:/var/log
+    depends_on:
+      - sphp
+
+    ports:
+      - "80:80"
+      - "443:443"
+
+  snode:
+    container_name: snode
+    image: node:latest
+    volumes:
+      - ./:/var/www
+    working_dir: /var/www
+    ports:
+      - "8080:8080"
