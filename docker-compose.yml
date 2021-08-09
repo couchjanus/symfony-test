@@ -4,6 +4,7 @@ services:
 
   sphp:
     container_name: sphp
+    user: "${UID}:${GID}"
     build:
       context: ./docker/dev/php-fpm
 #    extra_hosts:
