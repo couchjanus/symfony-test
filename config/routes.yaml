@@ -3,9 +3,9 @@
 #    controller: App\Controller\DefaultController::index
 # DevController
 
-index:
-    path: /
-    controller: App\Controller\DevController
+#index:
+#    path: /
+#    controller: App\Controller\DevController::index
 
 dev:
     path: /dev

@@ -12,7 +12,7 @@ RUN apt-get update \
 RUN pecl install xdebug \
     && docker-php-ext-enable xdebug \
     && echo "xdebug.mode=debug" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
-    && echo "xdebug.client_host = host.docker.internal" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && echo "xdebug.client_host = host.docker.internal" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini 
 
 COPY xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
@@ -25,5 +25,8 @@ RUN mv /root/.symfony/bin/symfony /usr/local/bin/symfony
 
 RUN git config --global user.email "couchjanus@gmail.com" && \ 
     git config --global user.name "couchjanus"
+
+RUN useradd -rm -d /home/www -s /bin/bash -g root -G sudo -u 1000 www
+USER www
 
 EXPOSE 9000

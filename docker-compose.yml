@@ -1,14 +1,19 @@
 version: '3.9'
 
 services:
-
   sphp:
     container_name: sphp
-    user: "${UID}:${GID}"
+    # user: "${UID}:${UID}"
+    
     build:
       context: ./docker/dev/php-fpm
-#    extra_hosts:
-#      host.docker.internal: host-gateway
+    
+    environment:
+      - APP_ENV=${APP_ENV}
+      - APP_SECRET=${APP_SECRET}
+      - USER_ID=${UID}
+      - GROUP_ID=${UID}
+    
     volumes:
       - ./:/var/www
       - ./docker/dev/php-fpm/php.ini:/usr/local/etc/php/php.ini
