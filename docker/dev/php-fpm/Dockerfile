@@ -1,7 +1,7 @@
 FROM php:8.0-fpm
 
-RUN apt-get update \
-    && DEBIAN_FRONTEND=noninteractive apt-get install -y zlib1g-dev g++ git libicu-dev zip libzip-dev libssl-dev libxml2-dev libpq-dev \
+RUN apt -y update \ 
+    && apt-get install -y zlib1g-dev g++ gnupg git libicu-dev zip libzip-dev libssl-dev libxml2-dev libpq-dev \
     && docker-php-ext-install -j$(nproc) intl opcache \
     && pecl install apcu \
     && docker-php-ext-enable apcu \
@@ -14,7 +14,19 @@ RUN pecl install xdebug \
     && echo "xdebug.mode=debug" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
     && echo "xdebug.client_host = host.docker.internal" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini 
 
-COPY xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+# COPY xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+
+# yarn
+# node
+
+RUN curl https://deb.nodesource.com/setup_16.x | bash
+RUN curl https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+
+RUN apt-get update && apt-get install -y nodejs yarn
+
+# update npm to last version
+RUN npm i -g npm
 
 WORKDIR /var/www
 
