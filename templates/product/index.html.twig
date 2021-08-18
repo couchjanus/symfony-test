@@ -1,0 +1,19 @@
+{# templates/product/index.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProductController!{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('products') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('products') }}
+{% endblock %}
+
+{% block body %}
+    <div id="app"></div>
+{% endblock %}
