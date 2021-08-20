@@ -36,11 +36,18 @@ services:
       - "80:80"
       - "443:443"
 
-  # snode:
-  #   container_name: snode
-  #   image: node:latest
-  #   volumes:
-  #     - ./:/var/www
-  #   working_dir: /var/www
-  #   ports:
-  #     - "8080:8080"
+  smssql:
+    container_name: smssql
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=1Ghbdtn!
+    env_file: ./docker/dev/mssql/.env
+    ports:
+      - "1433:1433"
+    volumes:
+      - ms_sqlserver_data:/var/opt/mssql
+
+volumes:
+  ms_sqlserver_data:
+    driver: local
