@@ -15,6 +15,16 @@ class ProductController extends AbstractController
     #[Route('/product', name: 'product')]
     public function index(): Response
     {
+        $products = $this->getDoctrine()
+            ->getRepository(Product::class)
+            ->findAll();
+
+        if (!$products) {
+            throw $this->createNotFoundException(
+                'No products yet...'
+            );
+        }
+        dump($products);
         return $this->render('product/index.html.twig', [
             'controller_name' => 'ProductController',
         ]);
@@ -69,18 +79,48 @@ class ProductController extends AbstractController
         }
 
         $categoryName = $product->getCategory()->getName();
+//        $category = $product->getCategory();
+//        // выводит "Proxies\AppEntityCategoryProxy"
+//        dump(get_class($category));
+//        die();
+
         $brandName = $product->getBrand()->getName();
 
 //        return new Response('Check out this great product: '.$product->getName());
 
         return new Response('Check out this great product: '.$product->getName().' Category: '.$categoryName.' Brand name:'.$brandName);
-
-
-
-
-
-         // or render a template
+    // or render a template
         // in the template, print things with {{ brand.name }}
         // return $this->render('brand/show.html.twig', ['brand' => $brand]);
     }
+
+    #[Route("/products/{id}", name:"show-products")]
+    public function showProducts(int $id): Response
+    {
+        $category = $this->getDoctrine()
+            ->getRepository(Category::class)
+            ->find($id);
+
+        $products = $category->getProducts();
+        dump($products);
+        dump($products[0]);
+        return $this->render('product/index.html.twig', [
+            'controller_name' => 'ProductController',
+            'products' => $products,
+        ]);
+    }
+    #[Route("/show-product/{id}", name:"show-product")]
+    public function showProduct(int $id): Response
+    {
+        $product = $this->getDoctrine()
+            ->getRepository(Product::class)
+            ->findOneByIdJoinedToCategoryAndBrand($id);
+        $category = $product->getCategory();
+        $brand = $product->getBrand();
+        dump($product);
+        dump($category);
+        dump($brand);
+        return new Response('Check out this great product: '.$product->getName().' Category: '.$category->getName().' Brand name:'.$brand->getName());
+    }
+
 }

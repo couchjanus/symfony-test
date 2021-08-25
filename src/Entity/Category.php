@@ -30,7 +30,7 @@ class Category
     private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity=Product::class, mappedBy="category")
+     * @ORM\OneToMany(targetEntity=Product::class, mappedBy="category", orphanRemoval=true)
      */
     private $products;
 
