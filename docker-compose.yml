@@ -13,11 +13,11 @@ services:
       - APP_SECRET=${APP_SECRET}
       - USER_ID=${UID}
       - GROUP_ID=${UID}
+      - DATABASE_TIMEZONE=Europe/Kiev
     
     volumes:
       - ./:/var/www
       - ./docker/dev/php-fpm/php.ini:/usr/local/etc/php/php.ini
-  
 
   snginx:
     container_name: snginx
@@ -29,6 +29,7 @@ services:
       - ./docker/dev/nginx/sites/:/etc/nginx/sites-available
       - ./docker/dev/nginx/conf.d/:/etc/nginx/conf.d
       - ./docker/logs:/var/log
+
     depends_on:
       - sphp
 
@@ -38,10 +39,12 @@ services:
 
   smssql:
     container_name: smssql
+    
     image: mcr.microsoft.com/mssql/server:2019-latest
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=1Ghbdtn!
+      - DATABASE_TIMEZONE=Europe/Kiev
     env_file: ./docker/dev/mssql/.env
     ports:
       - "1433:1433"
@@ -50,4 +53,5 @@ services:
 
 volumes:
   ms_sqlserver_data:
-    driver: local
+      driver: local
+  

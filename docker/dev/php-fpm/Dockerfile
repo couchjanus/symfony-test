@@ -30,6 +30,10 @@ RUN pecl install pdo_sqlsrv
 RUN docker-php-ext-enable sqlsrv
 RUN docker-php-ext-enable pdo_sqlsrv
 
+ENV TZ=Europe/Kiev
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+RUN date
+
 # yarn
 # node
 
@@ -41,6 +45,7 @@ RUN apt-get update && apt-get install -y nodejs yarn
 
 # update npm to last version
 # RUN npm i -g npm
+
 
 WORKDIR /var/www
 
@@ -54,5 +59,6 @@ RUN git config --global user.email "couchjanus@gmail.com" && \
 
 RUN useradd -rm -d /home/www -s /bin/bash -g root -G sudo -u 1000 www
 USER www
+
 
 EXPOSE 9000

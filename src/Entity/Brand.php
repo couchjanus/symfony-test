@@ -4,12 +4,17 @@ namespace App\Entity;
 
 use App\Repository\BrandRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Timestamps;
 
 /**
  * @ORM\Entity(repositoryClass=BrandRepository::class)
+ * @ORM\HasLifecycleCallbacks
  */
+
 class Brand
 {
+    use Timestamps;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -26,6 +31,7 @@ class Brand
      * @ORM\Column(type="string", length=255)
      */
     private $description;
+
 
     public function getId(): ?int
     {
@@ -55,4 +61,10 @@ class Brand
 
         return $this;
     }
+
+    public function __toString(){
+        // to show the name of the Brand in the select
+        return $this->name;
+    }
+
 }
