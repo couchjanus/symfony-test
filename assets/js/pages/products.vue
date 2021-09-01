@@ -1,11 +1,6 @@
 <template>
     <div>
-        <div>
-            <div>
-              Product
-              <catalog-component></catalog-component>
-            </div>
-        </div>
+        <catalog-component></catalog-component>
     </div>
 </template>
 

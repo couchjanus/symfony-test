@@ -5,12 +5,14 @@ namespace App\Entity;
 use App\Repository\BrandRepository;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Timestamps;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * @ORM\Entity(repositoryClass=BrandRepository::class)
  * @ORM\HasLifecycleCallbacks
  */
 
+#[ApiResource]
 class Brand
 {
     use Timestamps;

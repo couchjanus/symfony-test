@@ -29,6 +29,10 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "sql-cli": "^0.6.2"
+        "axios": "^0.21.1",
+        "bootstrap": "^5.1.0",
+        "node-sass": "^6.0.1",
+        "sql-cli": "^0.6.2",
+        "vue-router": "^3.5.2"
     }
 }

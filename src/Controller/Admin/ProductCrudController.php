@@ -19,11 +19,10 @@ class ProductCrudController extends AbstractCrudController
         return Product::class;
     }
 
-    
+
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id'),
             TextField::new('name'),
             TextEditorField::new('description'),
             NumberField::new('price'),
@@ -32,7 +31,7 @@ class ProductCrudController extends AbstractCrudController
             AssociationField::new('category')
                 ->setRequired(true)
                 ->setHelp('help text'),
-            
+
             FormField::addPanel('Brands'),
             AssociationField::new('brand')
                 ->setRequired(true)

@@ -5,6 +5,8 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Repository\CategoryRepository;
+
 use App\Entity\Category;
 use App\Entity\Product;
 use App\Entity\Brand;
@@ -12,8 +14,17 @@ use App\Entity\Brand;
 
 class ProductController extends AbstractController
 {
+
+    #[Route("/", name: "homepage")]
+    public function index(CategoryRepository $categoryRepository): Response
+    {
+        return $this->render('product/index.html.twig', [
+            'categories' => $categoryRepository->findAll(),
+        ]);
+    }
+
     #[Route('/product', name: 'product')]
-    public function index(): Response
+    public function index0(): Response
     {
         $products = $this->getDoctrine()
             ->getRepository(Product::class)
