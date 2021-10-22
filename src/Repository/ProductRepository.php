@@ -19,21 +19,21 @@ class ProductRepository extends ServiceEntityRepository
         parent::__construct($registry, Product::class);
     }
 
-    public function findOneByIdJoinedToCategoryAndBrand(int $productId): ?Product
-    {
-        $entityManager = $this->getEntityManager();
 
+    public function findByIdJoinToCategoryAndBrand(int $id):?Product{
+        $entityManager = $this->getEntityManager();
         $query = $entityManager->createQuery(
-            'SELECT p, c, b
-            FROM App\Entity\Product p
-            INNER JOIN p.category c
-            INNER JOIN p.brand b
-            WHERE p.id = :id'
-        )->setParameter('id', $productId);
+            '
+                SELECT p, c, b
+                FROM App\Entity\Product p 
+                INNER JOIN p.category c
+                INNER JOIN p.brand b
+                WHERE p.id = id'
+        )->setParameter('id', $id);
         return $query->getOneOrNullResult();
     }
 
-// /**
+    // /**
     //  * @return Product[] Returns an array of Product objects
     //  */
     /*

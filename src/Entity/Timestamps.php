@@ -2,21 +2,18 @@
 
 namespace App\Entity;
 
+use App\Repository\TimestampsRepository;
 use Doctrine\ORM\Mapping as ORM;
-
-use DateTime;
-use DateTimeInterface;
 
 trait Timestamps
 {
-
     /**
-     * @ORM\Column(name="created_at", type="datetime", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $createdAt;
 
     /**
-     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $updatedAt;
 
@@ -25,20 +22,22 @@ trait Timestamps
         return $this->createdAt;
     }
 
-    public function setCreatedAt(?DateTimeInterface $timestamp): self
+    public function setCreatedAt(?\DateTimeInterface $createdAt): self
     {
-        $this->createdAt = $timestamp;
+        $this->createdAt = $createdAt;
+
         return $this;
     }
 
-    public function getUpdatedAt(): ?DateTimeInterface
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?DateTimeInterface $timestamp): self
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
-        $this->updatedAt = $timestamp;
+        $this->updatedAt = $updatedAt;
+
         return $this;
     }
 
@@ -47,7 +46,7 @@ trait Timestamps
      */
     public function setCreatedAtAutomatically()
     {
-        if ($this->getCreatedAt() === null) {
+        if($this->getCreatedAt()==null) {
             $this->setCreatedAt(new \DateTime());
         }
     }
@@ -57,6 +56,8 @@ trait Timestamps
      */
     public function setUpdatedAtAutomatically()
     {
-        $this->setUpdatedAt(new DateTime());
+
+            $this->setUpdatedAt(new \DateTime());
+
     }
 }

@@ -5,9 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
 use App\Entity\Category;
-
 
 class CategoryController extends AbstractController
 {
@@ -18,27 +16,25 @@ class CategoryController extends AbstractController
             'controller_name' => 'CategoryController',
         ]);
     }
+
     /**
-     * @Route("/category-create", name="create_category")
+     * @Route("/create-category", name="create_category")
      */
     public function createCategory(): Response
     {
+//        Метод $this->getDoctrine()->getManager() получает объект диспетчера сущностей Doctrine, который является наиболее важным объектом в Doctrine. Он отвечает за сохранение и выборку объектов из базы данных.
         // you can fetch the EntityManager via $this->getDoctrine()
         // or you can add an argument to the action: createCategory(EntityManagerInterface $entityManager)
         $entityManager = $this->getDoctrine()->getManager();
 
         $category = new Category();
-        $category->setName('Mouse');
-        $category->setDescription('Ergonomic and stylish!');
+        $category->setName('Cats');
+        $category->setDescription('Bla bla bla');
 
-        // tell Doctrine you want to (eventually) save the Product (no queries yet)
         $entityManager->persist($category);
-
-        // actually executes the queries (i.e. the INSERT query)
         $entityManager->flush();
 
-        return new Response('Saved new category with id '.$category->getId());
-        // bin/console doctrine:query:sql 'SELECT * FROM category'
+        return new Response('New category created successfuly'.$category->getId());
     }
 
     /**
@@ -46,20 +42,10 @@ class CategoryController extends AbstractController
      */
     public function show(int $id): Response
     {
-        $category = $this->getDoctrine()
-            ->getRepository(Category::class)
-            ->find($id);
-
-        if (!$category) {
-            throw $this->createNotFoundException(
-                'No category found for id '.$id
-            );
+        $category = $this->getDoctrine()->getRepository(Category::class)->find($id);
+        if(!$category){
+            throw $this->createNotFoundException("No category found for id= ".$id);
         }
-
-        return new Response('Check out this great category: '.$category->getName());
-
-        // or render a template
-        // in the template, print things with {{ category.name }}
-        // return $this->render('category/show.html.twig', ['category' => $category]);
+        return new Response('category has name = '.$category->getName());
     }
 }

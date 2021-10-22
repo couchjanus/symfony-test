@@ -22,6 +22,4 @@ class BrandCrudController extends AbstractCrudController
         ];
     }
     */
-
-
 }

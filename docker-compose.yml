@@ -1,26 +1,25 @@
-version: '3.9'
+version: '3.3'
 
 services:
-  sphp:
-    container_name: sphp
-    # user: "${UID}:${UID}"
-    
+
+  shop-php:
+    container_name: shop-php
+    user: "${UID}:${GID}"
     build:
       context: ./docker/dev/php-fpm
-    
     environment:
       - APP_ENV=${APP_ENV}
       - APP_SECRET=${APP_SECRET}
-      - USER_ID=${UID}
-      - GROUP_ID=${UID}
       - DATABASE_TIMEZONE=Europe/Kiev
-    
+      - PHP_IDE_CONFIG="serverName=Docker"
     volumes:
       - ./:/var/www
+      - ./docker/dev/php-fpm/config.d/xdebug.ini:/usr/local/etc/php/config.d/docker-php-ext-xdebug.ini
+      - ./docker/dev/php-fpm/config.d/error_reporting.ini:/usr/local/etc/php/config.d/error_reporting.ini
       - ./docker/dev/php-fpm/php.ini:/usr/local/etc/php/php.ini
 
-  snginx:
-    container_name: snginx
+  shop-nginx:
+    container_name: shop-nginx
     build:
       context: ./docker/dev/nginx
     volumes:
@@ -29,29 +28,25 @@ services:
       - ./docker/dev/nginx/sites/:/etc/nginx/sites-available
       - ./docker/dev/nginx/conf.d/:/etc/nginx/conf.d
       - ./docker/logs:/var/log
-
     depends_on:
-      - sphp
+      - shop-php
 
     ports:
       - "80:80"
       - "443:443"
 
-  smssql:
-    container_name: smssql
-    
+  mssql:
+    container_name: mssql
     image: mcr.microsoft.com/mssql/server:2019-latest
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=1Ghbdtn!
-      - DATABASE_TIMEZONE=Europe/Kiev
-    env_file: ./docker/dev/mssql/.env
     ports:
       - "1433:1433"
     volumes:
-      - ms_sqlserver_data:/var/opt/mssql
+      - ms_sqlsrv_data:/var/opt/mssql
 
 volumes:
-  ms_sqlserver_data:
+    ms_sqlsrv_data:
       driver: local
-  
+

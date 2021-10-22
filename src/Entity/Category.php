@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=CategoryRepository::class)
@@ -14,6 +15,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 #[ApiResource]
 class Category
 {
+    use Timestamps;
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -22,12 +24,13 @@ class Category
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=20)
+     * @Groups({"product"})
      */
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $description;
 
@@ -63,7 +66,7 @@ class Category
         return $this->description;
     }
 
-    public function setDescription(?string $description): self
+    public function setDescription(string $description): self
     {
         $this->description = $description;
 
@@ -100,9 +103,9 @@ class Category
         return $this;
     }
 
-    public function __toString(){
-        // to show the name of the Brand in the select
+    public function __toString()
+    {
+        // TODO: Implement __toString() method.
         return $this->name;
     }
-
 }

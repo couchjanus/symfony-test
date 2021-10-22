@@ -1,17 +1,10 @@
-{# templates/product/index.html.twig #}
 {% extends 'base.html.twig' %}
 
-
-{% block title %}Hello ProductController!{% endblock %}
-
-{% block stylesheets %}
-    {{ parent() }}
-    {{ encore_entry_link_tags('products') }}
-{% endblock %}
+{% block title %}Product Controller!{% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    {{ encore_entry_script_tags('products') }}
+    {{ encore_entry_script_tags('app') }}
 {% endblock %}
 
 {% block body %}
